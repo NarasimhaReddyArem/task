@@ -1,0 +1,21 @@
+
+
+URL ::
+http://localhost:8080/task/winner
+Method :: put 
+Content-Type :: application/json
+
+
+Request ::
+
+
+
+{
+   "songDuration" : 4,
+   "count" : 11
+}
+
+
+
+
+
