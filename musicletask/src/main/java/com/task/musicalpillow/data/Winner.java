@@ -7,6 +7,7 @@ public class Winner {
 
 	
 	private int winner ;
+	
 
 	public int getWinner() {
 		return winner;

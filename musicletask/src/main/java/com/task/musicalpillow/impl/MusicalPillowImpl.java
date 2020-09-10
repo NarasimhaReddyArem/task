@@ -3,19 +3,20 @@ package com.task.musicalpillow.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.springframework.stereotype.Component;
 
 import com.task.musicalpillow.data.MusicalPillowDetails;
 
 public class MusicalPillowImpl {
 
-	static int count;
-	static int songDuration;
+	int count;
+	int songDuration;
 
-	static int startingPosition = 0;
-	static List<Integer> list = new ArrayList();
+	int startingPosition;
+	List<Integer> list = new ArrayList();
 
-	static int increment(int pos) {
+	// Finding which person is out of the game
+	int startgame(int pos) {
 		int in = pos;
 		for (int i = 0; i < songDuration - 1; i++) {
 			if (in == list.size() - 1)
@@ -27,46 +28,49 @@ public class MusicalPillowImpl {
 
 	}
 
-	static int deleteItem(int pos) {
+	int deleteItem(int pos) {
 
-		int k = increment(pos);
+		int k = startgame(pos);
 		Integer str;
 
-		if (k == list.size() - 1) {
-			str = (Integer) list.get(0);
-		} else {
-			str = (Integer) list.get(k + 1);
+		if (k == list.size() - 1) { // if game playing 2 persons (if list having 2 elements means) means this
+									// condition will excuete
+			str = list.get(0);
+		} else { // if game playing more than 2 persons (if list having more than 2 elements
+					// means) means this condition will excuete
+
+			str = list.get(k + 1);
 		}
 
+		// remove loosed person from the game (remove the integer from list)
 		list.remove(k);
+
+		// update the starting position
 		startingPosition = list.indexOf(str);
 
-		return list.size() - 1;
+		return list.size();
 
 	}
 
-	
-
-	public static int gameWinner(MusicalPillowDetails details) {
+	public int gameWinner(MusicalPillowDetails details) {
 
 		count = details.getCount();
 		songDuration = details.getSongDuration();
+		startingPosition = 0;
 
+		// Adding the 1,2,3 ...up to count to list using for loop
 		for (int i = 1; i <= count; i++) {
 			list.add(i);
 		}
 
-		count = deleteItem(startingPosition);
-		while (count > 0) {
+		// Each and every iteration one person out of the game
+		while (count > 1) {
 
 			count = deleteItem(startingPosition);
 
 		}
 
-		int k;
-		k = (Integer) list.get(count);
-
-		return k;
+		return list.get(0);
 
 	}
 
